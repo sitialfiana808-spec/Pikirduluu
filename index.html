@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PikirDulu - Asisten Belajar Anti-Copas</title>
+    <!-- Mengambil Font Modern & Ikon -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Navigasi Utama -->
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fa-solid fa-brain"></i> PikirDulu
+        </div>
+        <ul class="nav-links">
+            <li><button class="nav-btn active" onclick="showSection('beranda')"><i class="fa-solid fa-house"></i> Beranda</button></li>
+            <li><button class="nav-btn" onclick="showSection('tugas')"><i class="fa-solid fa-lightbulb"></i> Penyelesaian Tugas</button></li>
+            <li><button class="nav-btn" onclick="showSection('kuis')"><i class="fa-solid fa-circle-question"></i> Kuis</button></li>
+            <li><button class="nav-btn" onclick="showSection('motivasi')"><i class="fa-solid fa-fire"></i> Motivasi</button></li>
+        </ul>
+    </nav>
+
+    <!-- Kontainer Utama -->
+    <main class="container">
+
+        <!-- 1. BAGIAN BERANDA -->
+        <section id="beranda" class="page-section active">
+            <div class="hero-card">
+                <div class="hero-text">
+                    <span class="badge">🚀 Belajar Cerdas, Bukan Sekadar Copas</span>
+                    <h1>Asah Otakmu Sebelum Bertanya pada AI!</h1>
+                    <p>AI adalah alat bantu berpikir, bukan pengganti otakmu. Di <strong>PikirDulu</strong>, kamu akan dipandu memahami konsep soal secara bertahap, menguji pemahaman lewat kuis, dan menjaga semangat belajarmu.</p>
+                    <div class="hero-buttons">
+                        <button class="btn-primary" onclick="showSection('tugas')">Mulai Pahami Tugas <i class="fa-solid fa-arrow-right"></i></button>
+                        <button class="btn-secondary" onclick="showSection('kuis')">Coba Kuis</button>
+                    </div>
+                </div>
+                <div class="hero-icon">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-box">
+                    <i class="fa-solid fa-stairs icon-blue"></i>
+                    <h3>Panduan Bertahap</h3>
+                    <p>Tidak langsung memberi jawaban akhir, melainkan petunjuk langkah demi langkah.</p>
+                </div>
+                <div class="feature-box">
+                    <i class="fa-solid fa-check-double icon-green"></i>
+                    <h3>Uji Pemahaman</h3>
+                    <p>Pastikan kamu benar-benar mengerti materi lewat kuis interaktif singkat.</p>
+                </div>
+                <div class="feature-box">
+                    <i class="fa-solid fa-bolt icon-orange"></i>
+                    <h3>Booster Semangat</h3>
+                    <p>Kumpulan kutipan motivasi saat kamu mulai lelah dan ingin menyerah.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. BAGIAN PENYELESAIAN TUGAS (SCAFFOLDING / PETUNJUK) -->
+        <section id="tugas" class="page-section">
+            <div class="section-header">
+                <h2><i class="fa-solid fa-lightbulb"></i> Ruang Pemahaman Tugas</h2>
+                <p>Masukkan soal atau topik tugasmu. Sistem akan membantumu membedah cara berpikirnya, bukan memberi jawaban instan!</p>
+            </div>
+
+            <div class="card">
+                <div class="form-group">
+                    <label for="mapel">Pilih Kategori Mata Pelajaran:</label>
+                    <select id="mapel">
+                        <option value="matematika">Matematika / Hitungan</option>
+                        <option value="ipa">IPA / Sains</option>
+                        <option value="bahasa">Bahasa / Esai / Ringkasan</option>
+                        <option value="umum">Pengetahuan Umum / Sejarah</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="input-soal">Tulis Soal atau Masalah Tugasmu:</label>
+                    <textarea id="input-soal" rows="3" placeholder="Contoh: Sebuah mobil melaju dengan kecepatan 60 km/jam selama 2,5 jam. Berapa jarak yang ditempuh?"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="usaha-siswa">Apa yang sudah kamu ketahui atau coba dari soal ini? (Wajib diisi agar otak bekerja)</label>
+                    <textarea id="usaha-siswa" rows="2" placeholder="Contoh: Saya tahu rumusnya berhubungan dengan kecepatan dan waktu, tapi lupa dikali atau dibagi..."></textarea>
+                </div>
+
+                <button class="btn-primary" onclick="mulaiBimbingan()"><i class="fa-solid fa-wand-magic-sparkles"></i> Minta Petunjuk Berpikir</button>
+            </div>
+
+            <!-- Area Petunjuk Bertahap -->
+            <div id="area-bimbingan" class="bimbingan-box hidden">
+                <h3><i class="fa-solid fa-compass"></i> Peta Berpikir untuk Tugasmu:</h3>
+                <div id="langkah-container"></div>
+                <button id="btn-next-hint" class="btn-secondary" onclick="tampilkanLangkahBerikutnya()">Buka Petunjuk Selanjutnya <i class="fa-solid fa-chevron-down"></i></button>
+            </div>
+        </section>
+
+        <!-- 3. BAGIAN KUIS -->
+        <section id="kuis" class="page-section">
+            <div class="section-header">
+                <h2><i class="fa-solid fa-circle-question"></i> Kuis Uji Pemahaman</h2>
+                <p>Jawab pertanyaan berikut untuk melatih logika dan pemahaman konsep dasar!</p>
+            </div>
+
+            <div class="card quiz-card">
+                <div id="quiz-progress" class="quiz-progress">Pertanyaan 1 dari 5</div>
+                <h3 id="quiz-question">Memuat pertanyaan...</h3>
+                <div id="quiz-options" class="options-grid"></div>
+                <div id="quiz-feedback" class="feedback-box hidden"></div>
+                <button id="btn-next-quiz" class="btn-primary hidden" onclick="nextQuestion()">Pertanyaan Berikutnya <i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+        </section>
+
+        <!-- 4. BAGIAN MOTIVASI -->
+        <section id="motivasi" class="page-section">
+            <div class="section-header">
+                <h2><i class="fa-solid fa-fire"></i> Zona Motivasi Belajar</h2>
+                <p>Merasa malas atau tergoda menyontek AI? Baca pengingat ini dulu!</p>
+            </div>
+
+            <div class="motivation-card">
+                <i class="fa-solid fa-quote-left quote-icon"></i>
+                <p id="quote-text" class="quote-text">"AI bisa memberimu jawaban dalam 1 detik, tapi hanya proses berpikirmu sendiri yang bisa membuatmu cerdas seumur hidup."</p>
+                <span id="quote-author" class="quote-author">- Catatan Pelajar Cerdas</span>
+                
+                <div class="motivation-actions">
+                    <button class="btn-primary" onclick="gantiMotivasi()"><i class="fa-solid fa-shuffle"></i> Kata Motivasi Lainnya</button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>Dibuat untuk melatih kemandirian berpikir siswa &copy; 2026 PikirDulu</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
